@@ -11,9 +11,9 @@ const apiKey = process.env.WEATHERMAP_API_KEY;
  * @param {string} unit the unit to return the temperature in
  * @returns <object> add, lat, lng, temp
  */
-async function fetchWeather(asynFunc, address, unit) {
+async function fetchWeather(callback, address, unit) {
     try {
-        const geocodeObject = await asynFunc(address);
+        const geocodeObject = await callback(address);
         if (typeof(geocodeObject) === 'object') {
             const { lat, lng, add } = geocodeObject;
             const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&units=${unit}&appid=${apiKey}`;
