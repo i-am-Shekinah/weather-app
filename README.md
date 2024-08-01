@@ -49,13 +49,16 @@ This is a simple command-line weather application that fetches and displays curr
 ## Project Structure
 ```
 weather-app/
-├── geocode
+├── geocode/
 |   └── geocode.js
+├── screenshots/
+|   └── london-weather-data.png
 ├── weather
 |   └── weather.js
 ├── .env
 ├── .gitignore
 ├── app.js
+├── LICENSE
 ├── package-lock.json
 ├── package.json
 └── README.md
