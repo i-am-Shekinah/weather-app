@@ -17,7 +17,7 @@ async function getLocationCoordinates(address) {
         // https://api.opencagedata.com/geocode/VERSION/FORMAT?parameters
         const response = await axios.get(url);
 
-        if (response.status === 200 && response.data.results.length > 0) {
+        if (response.status === 200 && response.data.total_results > 0) {
             const lat = response.data.results[0].geometry.lat;
             const lng = response.data.results[0].geometry.lng;
             const add = response.data.results[0].formatted;
@@ -26,18 +26,22 @@ async function getLocationCoordinates(address) {
                 lng,
                 add
             }
-        } else if (response.status === 200 && response.data.results.length === 0) {
+        } else if (response.status === 200 && response.data.total_results === 0) {
             return 'Unable to locate city';
         } else {
             return `Unexpected error: ${error.response.status} - ${error.response.statusText}`;
         }
     } catch (error) {
-        if (error.response) {
-            return `Geocode API Error: ${error.response.status} ${error.response.data}`;
+        if (error.code === 'ETIMEDOUT') {
+            return 'Network Error: Unable to connect to API servers\nCheck your internet connection or change to a different router.'
+        } else if (error.code === 'ERR_BAD_REQUEST') {
+            return 'Unauthorized request\nCheck your API key';
         } else if (error.request) {
-            return 'Network Error: Unable to connect to geocode\'s API';
+            return `${error}\nRequest Error: Ensure your url is correctly spelt.`;
+        } else if (error.response) {
+            return `${error.response.status} - ${error.response.statusText}`;
         } else {
-            return `Error: ${error.message}`;
+            return 'Error:', error.message;
         }
     }
 }
