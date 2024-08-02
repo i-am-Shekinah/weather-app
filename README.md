@@ -55,7 +55,6 @@ weather-app/
 |   └── london-weather-data.png
 ├── weather
 |   └── weather.js
-├── .env
 ├── .gitignore
 ├── app.js
 ├── LICENSE
